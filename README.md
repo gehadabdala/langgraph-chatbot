@@ -79,3 +79,113 @@ langgraph-chatbot/
 ## Invoke
 -graph.invoke(...)
 -هنا حصل التنفيذ الفعلي.
+
+## Phase 2 -> Conditional Router
+START
+ ↓
+route_question()
+ ↓
+يرجع:
+math
+
+أو
+
+chatbot
+
+## Phase 3 -> Memory + State Management
+You: My name is Gehad
+
+You: What is my name?
+
+Bot: Your name is Gehad
+
+-Stateless
+
+كل Request لوحده.
+-Request
+↓
+Response
+
+
+-Stateful
+
+فيه تاريخ.
+-Request
+↓
+History
+↓
+Response
+
+-->>manual memory is done.
+
+## Phase 4 🚀 LangGraph Memory (Checkpointing)
+-ا اللي بتخلي الـ chatbot “يفتكر بجد” مش مجرد list في بايثون.
+-Persistent State Store ✅
+
+
+## Phase 5 Advanced Tool-Calling Agent (LangGraph)
+->> Workflow
+User
+ ↓
+Router Node (optional)
+ ↓
+Agent Node (LLM decides)
+ ↓
+IF tool needed?
+   ├── Tool Node (calculator / logic)
+   ↓
+Back to Agent
+ ↓
+Final Answer
+
+## Phase 6 LLM-driven Tool Calling Workflow
+ال LLM هيبدأ هنا يفكر وياخد قرار يستخدم Tool بنفسه بدل ما احنا نفرض عليه يروح لل Tool Executor.
+
+-إحنا عايزين الـ LLM نفسه يقول:
+
+أنا محتاج أستخدم Calculator.
+
+وده بيكون في الـ Response.
+
+يعني بدل ما يرجع:
+The answer is 425
+-هيرجع حاجه زي كده:
+tool_call:
+    name = calculator
+    args = {
+        "expression":"25*17"
+    }
+    ->دا  اسمه tool calling.
+
+-بدل 
+User
+ │
+ ▼
+Router
+ │
+ ▼
+Tool
+-يكون ده 
+User
+ │
+ ▼
+LLM
+ │
+ │
+ ├── لو مفيش Tool
+ │        │
+ │        ▼
+ │      Answer
+ │
+ └── لو فيه Tool
+          │
+          ▼
+     Tool Executor
+          │
+          ▼
+        LLM
+          │
+          ▼
+      Final Answer
+
+->كده ال LLM هو اللي بقي Brain.
