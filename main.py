@@ -1,4 +1,4 @@
-from graph import graph
+from graph.builder import graph
 from langchain_core.messages import HumanMessage
 
 config = {"configurable": {"thread_id": "user-1"}}

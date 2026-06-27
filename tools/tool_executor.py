@@ -1,4 +1,5 @@
 from tools.tools import add, subtract, multiply, divide
+from langchain_core.messages import ToolMessage
 
 available_tools = {
     "add": add,
@@ -24,6 +25,6 @@ def tool_executor(state):
 
         if tool:
             result = tool.invoke(tool_args)
-            results.append(result)
+            results.append(ToolMessage(content=str(result), tool_call_id=call["id"]))
 
     return {"messages": messages + results}

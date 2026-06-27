@@ -189,3 +189,52 @@ LLM
       Final Answer
 
 ->كده ال LLM هو اللي بقي Brain.
+
+
+## Phase 7 Multi-Step Tool Reasoning Agent
+-بدل ما نستخدم Tool واحده لا نقدر هنا نسخدم اكتر من واحده.
+-هنحسن ففايل ال chatbot.py, tool_executor.py, graph.py
+
+->tool = step في reasoning chain
+
+## Phase 8 Agent Production
+-Workflow:
+User
+ ↓
+Chat Node (LLM + tool calling)
+ ↓
+Tool Router (decides execute or end)
+ ↓
+Tool Executor (runs tools safely)
+ ↓
+Chat Node (final answer synthesis)
+ ↓
+Memory (thread-aware)
+
+->In this step Refactor graph structure into builder, routes, and state modules
+
+
+
+
+###
+🔖 Latest
+GLM-5.2
+
+Claude-Opus-4-8
+
+GPT-5.5
+
+GPT-Image-2
+
+DeepSeek-V4-Pro
+
+Qwen3.7-Max
+
+MiniMax-M3
+
+Kimi-K2.7
+
+OpenClaw
+
+Hermes Agent
+###
