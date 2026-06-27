@@ -1,5 +1,4 @@
-#
-MAX_HISTORY = 3
+from config.settings import MAX_HISTORY
 
 
 def trim_messages(messages):

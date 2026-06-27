@@ -2,17 +2,26 @@ from langchain_groq import ChatGroq
 import os
 from langchain_core.messages import SystemMessage
 from dotenv import load_dotenv
+from config.settings import TIMEOUT
 from prompts.system_prompt import SYSTEM_PROMPT
 from tools.tools import add, divide, multiply, subtract
 from memory.conversation import trim_messages
 
 load_dotenv()
+from config.settings import (
+    GROQ_API_KEY,
+    MODEL_NAME,
+    TEMPERATURE,
+    TIMEOUT,
+)
 
 llm = ChatGroq(
-    model="llama-3.3-70b-versatile",
-    api_key=os.getenv("GROQ_API_KEY"),
-    temperature=0,
+    model=MODEL_NAME,
+    api_key=GROQ_API_KEY,
+    temperature=TEMPERATURE,
+    timeout=TIMEOUT,
 )
+
 llm_with_tools = llm.bind_tools([add, subtract, multiply, divide])
 
 
