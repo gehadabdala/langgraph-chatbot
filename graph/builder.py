@@ -1,4 +1,4 @@
-from langgraph.graph import StateGraph, START
+from langgraph.graph import END, StateGraph, START
 from langgraph.checkpoint.memory import MemorySaver
 
 from graph.state import ChatState
@@ -17,7 +17,9 @@ graph_builder.add_node("tool_executor", tool_executor)
 graph_builder.add_edge(START, "chatbot")
 
 graph_builder.add_conditional_edges(
-    "chatbot", route_after_chatbot, {"tool_executor": "tool_executor", "end": "end"}
+    "chatbot",
+    route_after_chatbot,
+    {"tool_executor": "tool_executor", END: END},
 )
 
 graph_builder.add_edge("tool_executor", "chatbot")

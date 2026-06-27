@@ -2,9 +2,9 @@ from langgraph.graph import END
 
 
 def route_after_chatbot(state):
-    last = state["messages"][-1]
+    last_message = state["messages"][-1]
 
-    if hasattr(last, "tool_calls") and last.tool_calls:
+    if getattr(last_message, "tool_calls", None):
         return "tool_executor"
 
     return END

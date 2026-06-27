@@ -214,7 +214,27 @@ Memory (thread-aware)
 ->In this step Refactor graph structure into builder, routes, and state modules
 
 
+## Phase 9 Memory Architecture
+-التقسيمه كالتالي: 
+User
 
+      │
+      ▼
+
+Conversation
+
+      │
+      ▼
+
+Short Memory
+      │
+      ▼
+
+Summary Memory
+      │
+      ▼
+
+Long Memory
 
 ###
 🔖 Latest

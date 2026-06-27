@@ -2,13 +2,11 @@ from langchain_groq import ChatGroq
 import os
 from langchain_core.messages import SystemMessage
 from dotenv import load_dotenv
+from prompts.system_prompt import SYSTEM_PROMPT
 from tools.tools import add, divide, multiply, subtract
-from tools.calculator import calculator
+from memory.conversation import trim_messages
 
 load_dotenv()
-
-api_key = os.getenv("NVIDIA_API_KEY")
-print("API KEY LOADED:", api_key is not None)
 
 llm = ChatGroq(
     model="llama-3.3-70b-versatile",
@@ -17,23 +15,13 @@ llm = ChatGroq(
 )
 llm_with_tools = llm.bind_tools([add, subtract, multiply, divide])
 
-tools = {"add": add, "multiply": multiply, "subtract": subtract, "divide": divide}
-
-
-import json
-from langchain_core.messages import SystemMessage
-
 
 def chatbot(state):
-    messages = state["messages"]
+    messages = trim_messages(state["messages"])
+    print(f"Messages sent to LLM: {len(messages)}")
 
-    system_msg = SystemMessage(content="""
-You are a helpful assistant with access to tools.
-
-Use tools when needed to solve math problems.
-Return natural answers.
-""")
+    system_msg = SystemMessage(content=SYSTEM_PROMPT)
 
     response = llm_with_tools.invoke([system_msg] + messages)
 
-    return {"messages": messages + [response]}
+    return {"messages": [response]}
