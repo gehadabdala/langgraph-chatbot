@@ -1,12 +1,8 @@
+from exceptions.handlers import handle_tool_error
 from tools.tools import add, subtract, multiply, divide
 from langchain_core.messages import ToolMessage
-
-available_tools = {
-    "add": add,
-    "subtract": subtract,
-    "multiply": multiply,
-    "divide": divide,
-}
+from utils.logger import logger
+from tools.registry import AVAILABLE_TOOLS
 
 
 def tool_executor(state):
@@ -21,10 +17,20 @@ def tool_executor(state):
         tool_name = call["name"]
         tool_args = call["args"]
 
-        tool = available_tools.get(tool_name)
+        tool = AVAILABLE_TOOLS.get(tool_name)
 
         if tool:
-            result = tool.invoke(tool_args)
+            logger.info(f"Calling tool: {tool_name}")
+            logger.info(f"Arguments: {tool_args}")
+
+            try:
+                result = tool.invoke(tool_args)
+
+            except Exception as e:
+                result = handle_tool_error(tool_name, e)
+
+            logger.info(f"Result: {result}")
+
             results.append(ToolMessage(content=str(result), tool_call_id=call["id"]))
 
     return {"messages": messages + results}
