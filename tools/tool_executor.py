@@ -24,7 +24,7 @@ def tool_executor(state):
             logger.info(f"Arguments: {tool_args}")
 
             try:
-                result = tool.invoke(tool_args)
+                result = tool.ainvoke(tool_args)
 
             except Exception as e:
                 result = handle_tool_error(tool_name, e)

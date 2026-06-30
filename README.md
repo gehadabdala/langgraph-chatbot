@@ -236,6 +236,90 @@ Summary Memory
 
 Long Memory
 
+## Phase 10 State Management
+-To prevent:
+Duplicate messages.
+Bugs في الـ Memory.
+Tool loops غريبة.
+State غير متوقعة.
+
+
+## Phase 11 Structured Output by Pydantic
+إخراج منظم من الـ LLM (Pydantic Models) ✅.
+-بدل The answer is 50.
+-هيكون object منظم كده:
+AgentResponse(
+    answer="The answer is 50.",
+    confidence=0.98,
+    requires_followup=False,
+)
+-ودا هيكون هنا schemas/agent_response.py
+
+## Phase 12 Structured output
+-دي عملتها للمستقبل حاليا مش مستخدماها بس لو حبيت اطور المشروع يكون لموقع فيه AI assistant محتاج اجابه منظمه ومفصله مش مجرد string ساعتها هستخدمهز
+
+
+## Phase 13 Streaming 
+-دلوقتي ال agent شغال عندي كده:
+User
+   │
+   ▼
+LLM يفكر...
+   │
+   │ (3 ثواني)
+   │
+   ▼
+يرجع الرد كله مرة واحدة
+
+-بعد ما ال llm بيفكر بكام ثانيه بتطلع الاجابه كامله علي بعضها ودا بيحسس اليوزر ان ال agent ردوده بطيئه نوعا ما ف هنا جت فكره ال streaming وهي انه يبدأ يطلع الاجابه بالتدريج زي كده:
+Ans
+Answer
+Answer is
+Answer is ...
+ودا بيحسس اليوزر ان ال agent اسرع حتي لو بياخد وقت عبال ما ال llm يجيب الاجابه.
+
+## Phase 14 Async
+-البرنامج يقف لحد ما الـ API ترد.
+User
+ │
+ ▼
+LLM
+ │
+ │
+ │
+ البرنامج واقف
+ │
+ │
+ ▼
+Response
+-> ال async بقي بتخلي اليوزرز ينتظروا بس كلهم شغالين فنفس الوقت parallel
+
+
+## Phase 15 FastAPI 
+POST /chat
+        │
+        ▼
+graph.invoke()
+        │
+        ▼
+AI Response
+        │
+        ▼
+JSON
+->for running:
+python -m uvicorn api.app:app --reload
+
+## Phase 16 Dependency Injection
+FastAPI
+    │
+Depends()
+    │
+ChatService
+    │
+Repository
+    │
+LLM
+
 ###
 🔖 Latest
 GLM-5.2

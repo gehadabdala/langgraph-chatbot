@@ -1,9 +1,9 @@
-from langchain_core.messages import AIMessage, SystemMessage
+from langchain_core.messages import AIMessage
 
 from exceptions.handlers import handle_llm_error
-from prompts.system_prompt import SYSTEM_PROMPT
+from prompts.chat_prompt import chat_prompt
 from memory.conversation import trim_messages
-from services.llm_service import invoke_llm
+from services.agent_chain import agent_chain
 from utils.logger import logger
 
 
@@ -12,10 +12,8 @@ def chatbot(state):
 
     logger.info(f"Messages sent to LLM: {len(messages)}")
 
-    system_msg = SystemMessage(content=SYSTEM_PROMPT)
-
     try:
-        response = invoke_llm([system_msg] + messages)
+        response = agent_chain.invoke({"messages": messages})
 
     except Exception as e:
         return {"messages": [AIMessage(content=handle_llm_error(e))]}
